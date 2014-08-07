@@ -16,12 +16,13 @@ import javax.swing.BoxLayout;
 import javax.swing.*;
 /*
  * Gui.java requires the following file:
- *    images/wavy.gif
+ *    Nothing
  */
 public class Gui extends JPanel {
     protected JButton livingRoom, kitchen, bedroom, bathroom, office, familyRoom;
-    protected JLabel tv, cable, xbox;
+    protected JLabel tv, cable, xbox, statusLabel, lightsLabel, lightsLabelP2;
     protected String radioSetting = "";
+    protected JScrollBar lights, lightsP2;
     //RadioListener myListener = null;
     public Gui() {
         super(new GridLayout(1,0));
@@ -46,6 +47,8 @@ public class Gui extends JPanel {
         //On top of that: gridlayout
         JPanel simpleBorders = new JPanel();
         JPanel gridlayout = new JPanel();
+        JPanel overPanel = new JPanel();
+        overPanel.setLayout(new GridLayout(1,1));
         //Grid Layout(rows, columns,xpadding, ypadding
         gridlayout.setLayout(new GridLayout(5,1,5,5));
         //gridlayout.getColumnModel().getColumn(0).setPreferredWidth(270);
@@ -57,22 +60,9 @@ public class Gui extends JPanel {
         simpleBorders.setLayout(new BoxLayout(simpleBorders,
                                               BoxLayout.Y_AXIS));
         
-        
-        /*livingRoom.addActionListener(new ActionListener() {
-        
-            public void actionPerformed(ActionEvent e)
-            {
-                //Execute when button is pressed
-                if (livingRoom.getText() == "Living Room"){
-                    livingRoom.setText("Yay! It works! ");}
-                else if (livingRoom.getText() == "Yay! It works! "){
-                    livingRoom.setText("Living Room");}
-            }
-        }); */  
-        
         JPanel tvPanel = new JPanel();
         tvPanel.setLayout(new GridLayout(1,3));
-        tv = new JLabel("T.V.:");
+        tv = new JLabel("T.V.:", SwingConstants.RIGHT);
         tvPanel.add(tv);
         final JRadioButton tvOn = new JRadioButton("On");
         final JRadioButton tvOff = new JRadioButton("Off");
@@ -83,7 +73,7 @@ public class Gui extends JPanel {
         
         JPanel cablePanel = new JPanel();
         cablePanel.setLayout(new GridLayout(1,3));
-        cable = new JLabel("CableBox:");
+        cable = new JLabel("CableBox:", SwingConstants.RIGHT);
         cablePanel.add(cable);
         final JRadioButton cableOn = new JRadioButton("On");
         final JRadioButton cableOff = new JRadioButton("Off");
@@ -94,7 +84,7 @@ public class Gui extends JPanel {
         
         JPanel xboxPanel = new JPanel();
         xboxPanel.setLayout(new GridLayout(1,3));
-        xbox = new JLabel("XBox:");
+        xbox = new JLabel("XBox:", SwingConstants.RIGHT);
         xboxPanel.add(xbox);
         final JRadioButton xboxOn = new JRadioButton("On");
         final JRadioButton xboxOff = new JRadioButton("Off");
@@ -107,6 +97,8 @@ public class Gui extends JPanel {
         resultsPanel.setLayout(new GridLayout(5,5));
         final JLabel results = new JLabel(radioSetting);
         resultsPanel.add(results);
+        final JLabel resultsP2 = new JLabel(radioSetting);
+        resultsPanel.add(resultsP2);
         
         ButtonGroup tvGroup = new ButtonGroup();
         tvGroup.add(tvOff);
@@ -118,9 +110,35 @@ public class Gui extends JPanel {
         xboxGroup.add(xboxOff);
         xboxGroup.add(xboxOn);
         
+        
+        final JScrollBar lights = new JScrollBar(JScrollBar.HORIZONTAL);
+        //lights.setPreferredSize(new Dimension(200, 10));
+        lights.setMaximum (110);
+        lights.setMinimum (0);
+        
+        final JLabel statusLabel = new JLabel();
+        //lightsLabel = new JLabel("Lights: ", SwingConstants.RIGHT);
+        //simpleBorders.add(lightsLabel);
+        simpleBorders.add(statusLabel);
+        simpleBorders.add(lights);
+      
+        lights.addAdjustmentListener(new AdjustmentListener() {
+
+         @Override
+         public void adjustmentValueChanged(AdjustmentEvent e) {
+            statusLabel.setText("Lights: "
+               +lights.getValue() 
+               +"%");
+            }
+        });
         JPanel blankPanel1 = new JPanel();
         JPanel blankPanel2 = new JPanel();
         JPanel blankPanel3 = new JPanel();
+        JPanel blankPanel4 = new JPanel();
+        JPanel bottomPanel = new JPanel();
+        JPanel blankPanel5 = new JPanel();
+        final JLabel filler = new JLabel("               ");
+        blankPanel5.add(filler);
         
         final JButton submitButton = new JButton(" Submit ");
         submitButton.addActionListener(new ActionListener(){
@@ -130,6 +148,7 @@ public class Gui extends JPanel {
                 radioSetting = "";
                 int temp = 10;
                 results.setText(radioSetting);
+                //resultsP2.setText(String(lights.getValue()));
                 if (tvOff.isSelected())                    
                     temp -= 1;
                 else if (tvOn.isSelected())                   
@@ -144,33 +163,37 @@ public class Gui extends JPanel {
                     temp += 3;
                 
                 switch (temp) {
-                    case 16:  radioSetting = "Everything is on! ";
+                    case 16:  radioSetting = "Everything is on!               ";
                          break;
-                    case 10:  radioSetting = "The T.V. is on, the Cable is on, and the Xbox is off." ;
+                    case 10:  radioSetting = "The T.V. and Cable are on, and the Xbox is off. \n" ;
                          break;
-                    case 12:  radioSetting = "The T.V. is off, the Cable is off, and the Xbox is on.";
+                    case 12:  radioSetting = "The T.V. and Cable are  off, and the Xbox is on. \n";
                          break;
-                    case 6:  radioSetting = "The T.V. is on, the Cable is off, and the Xbox is off." ;
+                    case 6:  radioSetting = "The T.V. is on, and the Cable and Xbox are off.\n" ;
                          break;
-                    case 14:  radioSetting = "The T.V. is off, the Cable is on, and the Xbox is on.";
+                    case 14:  radioSetting = "The T.V. is off, and the Cable and Xbox is on.\n";
                          break;
-                    case 8:  radioSetting = "The T.V. is off, the Cable is on, and the Xbox is off." ;
+                    case 8:  radioSetting = "The T.V. and Xbox are  off, and the Cable is off.\n" ;
                          break;
-                    case 4:  radioSetting = "Everything is off!" ;
+                    case 4:  radioSetting = "Everything is off!                      " ;
                          break;
-                    default: radioSetting = "How did you do that...";
+                    default: radioSetting = "How did you do that...    ";
                 }
                 if (temp == 10){
                     if (tvOn.isSelected() && cableOn.isSelected() && xboxOff.isSelected())
-                        radioSetting = "The T.V. is on, the Cable is on, and the Xbox is off";
+                        radioSetting = "The T.V. and Cable are on, and the Xbox is off.\n";
                     else if (tvOff.isSelected() && cableOff.isSelected() && xboxOn.isSelected())
-                        radioSetting = "The T.V. is off, the Cable is off, and the Xbox is on";
+                        radioSetting = "The T.V. and Cable are  off, and the Xbox is on.\n";
                     else
                         radioSetting = "How did you do that...";
                     }
-                results.setText(radioSetting + "   ");
+                results.setText("\n" + radioSetting);
+                resultsP2.setText("The lights are at: " + lights.getValue() +"%. ");
             }
         });
+        
+        
+        
         JButton buttonExit = new JButton(" Exit ");
         buttonExit.addActionListener(new ActionListener(){
   
@@ -180,49 +203,87 @@ public class Gui extends JPanel {
             }
         });
         
-        
+        //gridlayout.add(blankPanel4);
         gridlayout.add(tvPanel);
         gridlayout.add(blankPanel1);
         gridlayout.add(cablePanel);
         gridlayout.add(blankPanel2);
         gridlayout.add(xboxPanel);
         gridlayout.add(blankPanel3);
-        gridlayout.add(submitButton);
-        gridlayout.add(buttonExit);
-        simpleBorders.add(resultsPanel);
+        overPanel.add(gridlayout);
+        //gridlayout.add(blankPanel4);
+        bottomPanel.add(submitButton);
+        bottomPanel.add(buttonExit);
+        bottomPanel.add(blankPanel5);
+        bottomPanel.add(resultsPanel);
+        //simpleBorders.add(bottomPanel);
         //now add the gridlayout to the simpleBorders
-        simpleBorders.add(gridlayout, BorderLayout.CENTER);
-        simpleBorders.add(resultsPanel, BorderLayout.SOUTH);
-
-
-        JPanel matteBorders = new JPanel();
-        matteBorders.setBorder(paneEdge);
-        matteBorders.setLayout(new BoxLayout(matteBorders,
+        simpleBorders.add(overPanel);
+        simpleBorders.add(bottomPanel, BorderLayout.SOUTH);
+        /*
+        gridlayout.setBorder(BorderFactory.createLineBorder(Color.black));
+        resultsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        tvPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
+        cablePanel.setBorder(BorderFactory.createLineBorder(Color.red));
+        xboxPanel.setBorder(BorderFactory.createLineBorder(Color.green));
+        blankPanel1.setBorder(BorderFactory.createLineBorder(Color.white));
+        blankPanel2.setBorder(BorderFactory.createLineBorder(Color.white));
+        blankPanel3.setBorder(BorderFactory.createLineBorder(Color.white));
+        blankPanel4.setBorder(BorderFactory.createLineBorder(Color.white));
+        blankPanel5.setBorder(BorderFactory.createLineBorder(Color.white));
+        */
+        
+        //Tab 2 --------------------------------------------
+        /*JPanel kitchenPanel = new JPanel();
+        kitchenPanel.setLayout(new BoxLayout(kitchenPanel,
                                               BoxLayout.Y_AXIS));
+        JPanel lightsPanelP2 = new JPanel();
+        lightsPanelP2.setLayout(new BoxLayout(kitchenPanel,
+                                              BoxLayout.Y_AXIS));                                   
+        final JLabel statusLabelP2 = new JLabel("Lights: ", SwingConstants.RIGHT);
+        //statusLabelP2 = new JLabel("Lights: ", SwingConstants.RIGHT);
+        lightsPanelP2.add(statusLabelP2);
+        final JScrollBar lightsP2 = new JScrollBar(JScrollBar.HORIZONTAL);
+        lightsP2.setMaximum (110);
+        lightsP2.setMinimum (0);
+        lightsPanelP2.add(lightsP2);
+        lightsPanelP2.add(statusLabelP2);
+      
+        lightsP2.addAdjustmentListener(new AdjustmentListener() {
 
-        ImageIcon icon = createImageIcon("images/wavy.gif",
-                                         "wavy-line border icon"); //20x22
-        Border border = BorderFactory.createMatteBorder(-1, -1, -1, -1, icon);
-        if (icon != null) {
-            addCompForBorder(raisedbevel, "Family Room",
-                         simpleBorders);
-        } else {
-            addCompForBorder(raisedbevel, "Family Room",
-                         matteBorders);
-        }
-        border = BorderFactory.createMatteBorder(1, 5, 1, 1, Color.red);
-        addCompForBorder(raisedbevel, "Family Room",
-                         matteBorders);
-
-        border = BorderFactory.createMatteBorder(0, 20, 0, 0, icon);
-        if (icon != null) {
-            addCompForBorder(raisedbevel, "Family Room",
-                         matteBorders);
-        } else {
-            addCompForBorder(raisedbevel, "Family Room",
-                         matteBorders);
-        }
-
+         @Override
+         public void adjustmentValueChanged(AdjustmentEvent e) {
+            statusLabelP2.setText("Lights: "
+               +lightsP2.getValue() 
+               +"%");
+            }
+        });
+        JPanel finishedP2 = new JPanel();
+        final JButton submitButtonP2 = new JButton(" Submit ");
+        submitButtonP2.addActionListener(new ActionListener(){
+  
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                //resultsP2.setText(" The lights are at: " + lights.getValue() +"%. ");
+            }
+        });
+        JButton buttonExitP2 = new JButton(" Exit ");
+        buttonExitP2.addActionListener(new ActionListener(){
+  
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                System.exit(0);
+            }
+        });
+        finishedP2.add(submitButtonP2);
+        finishedP2.add(buttonExitP2);
+        kitchenPanel.add(lightsPanelP2);
+        kitchenPanel.add(finishedP2);
+        */
+        
+        
+        
+        
         //Third pane: titled borders
         JPanel titledBorders = new JPanel();
         titledBorders.setBorder(paneEdge);
@@ -238,37 +299,18 @@ public class Gui extends JPanel {
 
         titled = BorderFactory.createTitledBorder(
                               blackline, "title");
-        addCompForTitledBorder(titled,
-                               "titled line border"
-                                   + " (centered, default pos.)",
-                               TitledBorder.CENTER,
-                               TitledBorder.DEFAULT_POSITION,
-                               titledBorders);
+       
 
         titled = BorderFactory.createTitledBorder(loweredetched, "title");
-        addCompForTitledBorder(titled,
-                               "titled lowered etched border"
-                                   + " (right just., default pos.)",
-                               TitledBorder.RIGHT,
-                               TitledBorder.DEFAULT_POSITION,
-                               titledBorders);
+        
 
         titled = BorderFactory.createTitledBorder(
                         loweredbevel, "title");
-        addCompForTitledBorder(titled,
-                               "titled lowered bevel border"
-                                   + " (default just., above top)",
-                               TitledBorder.DEFAULT_JUSTIFICATION,
-                               TitledBorder.ABOVE_TOP,
-                               titledBorders);
+        
 
         titled = BorderFactory.createTitledBorder(
                         empty, "title");
-        addCompForTitledBorder(titled, "titled empty border"
-                               + " (default just., bottom)",
-                               TitledBorder.DEFAULT_JUSTIFICATION,
-                               TitledBorder.BOTTOM,
-                               titledBorders);
+        
 
         //Fourth pane: compound borders
         JPanel compoundBorders = new JPanel();
@@ -299,7 +341,7 @@ public class Gui extends JPanel {
 
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Living Room", null, simpleBorders, null);
-        tabbedPane.addTab("Kitchen", null, matteBorders, null);
+        tabbedPane.addTab("Kitchen", null, KitchenPanel.KitchenPanel(), null);
         tabbedPane.addTab("Bedroom", null, titledBorders, null);
         tabbedPane.addTab("Bathroom", null, compoundBorders, null);
         tabbedPane.setSelectedIndex(0);
@@ -309,16 +351,7 @@ public class Gui extends JPanel {
         add(tabbedPane);
     }
 
-    void addCompForTitledBorder(TitledBorder border,
-                                String description,
-                                int justification,
-                                int position,
-                                Container container) {
-        border.setTitleJustification(justification);
-        border.setTitlePosition(position);
-        addCompForBorder(border, description,
-                         container);
-    }
+    
 
     void addCompForBorder(Border border,
                           String description,
@@ -332,19 +365,6 @@ public class Gui extends JPanel {
         container.add(comp);
     }
 
-
-    /** Returns an ImageIcon, or null if the path was invalid. */
-    protected static ImageIcon createImageIcon(String path,
-                                               String description) {
-        java.net.URL imgURL = Gui.class.getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL, description);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
-    }
-
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the 
@@ -354,7 +374,7 @@ public class Gui extends JPanel {
         //Create and set up the window.
         JFrame frame = new JFrame("Gui");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE );
-        frame.setSize(350, 400);
+        frame.setSize(5, 5);
 
         //Create and set up the content pane.
         Gui newContentPane = new Gui();
