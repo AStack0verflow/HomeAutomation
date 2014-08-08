@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.params=
-comment0.target=java.awt.Component\ KitchenPanel()
+comment0.target=java.awt.Component\ BathroomPanel()
 comment1.params=e
 comment1.target=void\ adjustmentValueChanged(java.awt.event.AdjustmentEvent)
 comment2.params=ae

@@ -15,18 +15,18 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.*;
 /**
- * Write a description of class kitchenPanel here.
+ * Write a description of class bedRoomPanel here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class KitchenPanel
+public class BedRoomPanel
 {
     // instance variables - replace the example below with your own
-    protected static Component KitchenPanel() {
+    protected static Component BedRoomPanel() {
         //Tab 2 --------------------------------------------
-        JPanel kitchenPanel = new JPanel();
-        kitchenPanel.setLayout(new BoxLayout(kitchenPanel,
+        JPanel bedRoomPanel = new JPanel();
+    bedRoomPanel.setLayout(new BoxLayout(bedRoomPanel,
                                               BoxLayout.Y_AXIS));                       
         JPanel lightsPanel = new JPanel();
         lightsPanel.setLayout(new BoxLayout(lightsPanel,
@@ -67,9 +67,9 @@ public class KitchenPanel
         });
         finished.add(submitButton);
         finished.add(buttonExit);
-        kitchenPanel.add(lightsPanel);
-        kitchenPanel.add(finished);
+        bedRoomPanel.add(lightsPanel);
+        bedRoomPanel.add(finished);
       
-       return kitchenPanel;
+       return bedRoomPanel;
     }
 }
